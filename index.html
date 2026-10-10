@@ -26,7 +26,7 @@ input:focus,select:focus{border-color:#6983ed;box-shadow:0 0 0 3px #3157d51a}
 .sidebar .brand{padding:0 12px 8px}.school-caption{font-size:11px;color:#b7c4e3;padding:0 12px 28px}
 .nav-label{font-size:10px;letter-spacing:1.5px;color:#9eafd4;padding:12px}
 .nav-btn{width:100%;border:0;text-align:left;color:#dce4f7;background:transparent;padding:12px;border-radius:9px;margin:2px 0;font-size:14px}
-.nav-btn:hover,.nav-btn.active{background:#2c3f68;color:white}.nav-btn .ico{display:inline-block;width:28px}
+.nav-btn:hover,.nav-btn.active{background:#2c3f68;color:white}.nav-btn .ico{display:inline-grid;place-items:center;width:24px;height:24px;margin-right:5px;border:1px solid #536487;border-radius:7px;font-size:10px;font-weight:800}
 .side-bottom{margin-top:auto;padding:12px}.side-user{font-size:13px;color:#dce4f7;line-height:1.6;margin-bottom:12px}
 .main{margin-left:245px;min-height:100vh}.topbar{height:75px;background:white;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 30px;position:sticky;top:0;z-index:3}
 .topbar h2{font-size:17px;margin:0}.top-right{display:flex;align-items:center;gap:12px}.avatar{width:37px;height:37px;border-radius:50%;display:grid;place-items:center;background:#e7edff;color:#2949bf;font-weight:800}
@@ -160,9 +160,9 @@ function statIcon(label){
 function statCard(label,value,foot,icon){return `<div class="stat"><div class="stat-top"><span>${label}</span><span class="stat-icon">${statIcon(label)}</span></div><div class="stat-value">${value}</div><div class="stat-foot">${foot}</div></div>`}
 function pageHead(title,subtitle,action=""){return `<div class="page-heading"><div><h1>${title}</h1><p>${subtitle}</p></div>${action}</div>`}
 function navItems(){
- if(currentUser.role==="management")return [["dashboard","▦","Overview"],["students","","Students"],["teachers","","Teachers"],["fees","₹","Fee Management"],["attendance","","Attendance"],["notices","▤","School Notices"]];
- if(currentUser.role==="teacher")return [["dashboard","▦","My Dashboard"],["attendance","","Mark Attendance"],["students","","Student List"],["notices","▤","School Notices"]];
- return [["dashboard","▦","My Dashboard"],["myattendance","","My Attendance"],["myfees","₹","My Fees"],["notices","▤","School Notices"]];
+ if(currentUser.role==="management")return [["dashboard","O","Overview"],["students","S","Students"],["teachers","T","Teachers"],["fees","₹","Fee Management"],["attendance","A","Attendance"],["notices","N","School Notices"]];
+ if(currentUser.role==="teacher")return [["dashboard","O","My Dashboard"],["attendance","A","Mark Attendance"],["students","S","Student List"],["notices","N","School Notices"]];
+ return [["dashboard","O","My Dashboard"],["myattendance","A","My Attendance"],["results","R","My Results"],["myfees","₹","My Fees"],["notices","N","School Notices"]];
 }
 function buildNav(){
  document.getElementById("navigation").innerHTML=navItems().map(([key,ico,label])=>`<button class="nav-btn ${key===currentPage?"active":""}" data-page="${key}"><span class="ico">${ico}</span>${label}</button>`).join("");
