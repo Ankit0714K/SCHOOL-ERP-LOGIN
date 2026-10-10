@@ -45,6 +45,32 @@ input:focus,select:focus{border-color:#6983ed;box-shadow:0 0 0 3px #3157d51a}
 .mobile-menu{display:none}.logout-btn{width:100%;text-align:left;background:#24385f;color:white;border:0;padding:11px;border-radius:9px}
 @media(max-width:1050px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.two-col{grid-template-columns:1fr}}
 @media(max-width:720px){.sidebar{width:100%;height:auto;position:relative;inset:auto;padding:15px;display:block}.sidebar .brand{padding:0 5px}.school-caption{padding:0 5px 10px}.nav-label{display:none}.nav-btn{width:auto;display:inline-block;padding:9px}.side-bottom{display:none}.main{margin-left:0}.topbar{height:62px;padding:0 17px}.content{padding:20px 14px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stat{padding:15px}.stat-value{font-size:23px}.page-heading h1{font-size:22px}.login-wrap{padding:23px}.role-choice{font-size:11px}.field-row{grid-template-columns:1fr}}
+
+/* Refined interface graphics */
+.login-wrap{position:relative;overflow:hidden}
+.login-wrap:before{content:"";position:absolute;top:-72px;right:-72px;width:190px;height:190px;border-radius:50%;background:linear-gradient(135deg,#e6edff,#f5f7ff);pointer-events:none}
+.school-mark,.brand,.login-wrap h1,.login-wrap p,.role-grid,#loginForm,.demo-note{position:relative;z-index:1}
+.login-art{width:100%;height:116px;margin:12px 0 18px;border:1px solid #e7ecf7;border-radius:14px;background:linear-gradient(115deg,#f6f8ff,#edf3ff);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.login-art svg{width:100%;height:100%;max-width:330px}
+input#loginId,input#loginPassword,#studentSearch,#attendanceSearch{background-repeat:no-repeat;background-position:13px center;background-size:17px;padding-left:40px}
+input#loginId{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23808da5' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21v-2a8 8 0 0 1 16 0v2'/%3E%3C/svg%3E")}
+input#loginPassword{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23808da5' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='10' width='16' height='11' rx='2'/%3E%3Cpath d='M8 10V7a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E")}
+#studentSearch,#attendanceSearch{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23808da5' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='10.8' cy='10.8' r='6.8'/%3E%3Cpath d='m16 16 5 5'/%3E%3C/svg%3E")}
+.page-heading{position:relative;overflow:hidden;padding:3px 112px 3px 0}
+.page-heading:after{content:"";position:absolute;right:8px;top:0;width:92px;height:72px;border-radius:18px;background:linear-gradient(145deg,#e2eaff,#f0f4ff);border:1px solid #dce5ff;z-index:0}
+.page-heading:before{content:"";position:absolute;right:27px;top:14px;width:53px;height:42px;border:2px solid #7792e8;border-radius:5px 5px 3px 3px;background:repeating-linear-gradient(90deg,transparent 0 10px,#c4d2fb 10px 13px),repeating-linear-gradient(0deg,transparent 0 10px,#c4d2fb 10px 13px);z-index:1}
+.page-heading>div,.page-heading>button{position:relative;z-index:2}
+.avatar,.mini-avatar{box-shadow:inset 0 0 0 1px #dce5ff;background:linear-gradient(145deg,#edf2ff,#dce6ff)}
+.stat-icon{box-shadow:inset 0 0 0 1px #e1e8ff}
+.panel{box-shadow:0 3px 14px #17203306;transition:box-shadow .18s ease,transform .18s ease}
+.panel:hover{box-shadow:0 7px 22px #1720330a}
+.role-choice{transition:border-color .18s ease,background .18s ease,transform .18s ease}
+.role-choice:hover{transform:translateY(-2px);border-color:#a8b8f3}
+input,select{transition:border-color .18s ease,box-shadow .18s ease}
+.empty{position:relative}
+.empty:before{content:"";display:block;width:38px;height:30px;margin:0 auto 12px;border:1.5px solid #b9c7e5;border-radius:7px;background:linear-gradient(90deg,transparent 0 28%,#dbe4f8 28% 32%,transparent 32% 65%,#dbe4f8 65% 69%,transparent 69%),linear-gradient(#e9efff 0 0) top/100% 6px no-repeat}
+@media(max-width:720px){.page-heading{padding-right:72px}.page-heading:after{width:60px;height:54px;right:0}.page-heading:before{right:12px;top:10px;width:38px;height:32px}.login-art{height:94px}}
+
 </style>
 </head>
 <body>
@@ -52,7 +78,26 @@ input:focus,select:focus{border-color:#6983ed;box-shadow:0 0 0 3px #3157d51a}
   <div class="login-wrap">
     <div class="school-mark">NA</div>
     <div class="brand">National <span>Academy</span></div>
-    <h1 style="margin-top:22px">School ERP Portal</h1>
+<div class="login-art" aria-hidden="true">
+      <svg viewBox="0 0 340 116" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 99H340" stroke="#CBD7F1" stroke-width="2"/>
+        <path d="M28 99V65L63 47L98 65V99" fill="#DCE6FF" stroke="#8EA5E8" stroke-width="1.6"/>
+        <path d="M48 99V78H77V99M43 69H53V79H43ZM72 69H82V79H72Z" fill="#A9BCF3"/>
+        <path d="M122 99V43H218V99" fill="#FFFFFF" stroke="#91A7E9" stroke-width="1.8"/>
+        <path d="M112 43L170 14L228 43H112Z" fill="#C7D5FF" stroke="#91A7E9" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M151 27V18H189V27" stroke="#91A7E9" stroke-width="1.5"/>
+        <rect x="137" y="53" width="17" height="17" rx="2" fill="#DDE6FF" stroke="#9DB0E8"/>
+        <rect x="186" y="53" width="17" height="17" rx="2" fill="#DDE6FF" stroke="#9DB0E8"/>
+        <rect x="161" y="73" width="18" height="26" rx="2" fill="#9DB0E8"/>
+        <path d="M248 99V59H292V99" fill="#E5EBFC" stroke="#9DB0E8" stroke-width="1.6"/>
+        <path d="M240 59L270 40L300 59H240Z" fill="#C7D5FF" stroke="#9DB0E8" stroke-width="1.6" stroke-linejoin="round"/>
+        <rect x="258" y="69" width="10" height="12" rx="1" fill="#A9BCF3"/><rect x="274" y="69" width="10" height="12" rx="1" fill="#A9BCF3"/>
+        <circle cx="32" cy="26" r="8" fill="#D7E2FF"/><circle cx="310" cy="24" r="11" fill="#D7E2FF"/>
+        <path d="M18 44L22 36L26 44L34 48L26 52L22 60L18 52L10 48L18 44Z" fill="#91A7E9" opacity=".8"/>
+        <path d="M309 45L312 39L315 45L321 48L315 51L312 57L309 51L303 48L309 45Z" fill="#91A7E9" opacity=".8"/>
+      </svg>
+    </div>
+    <h1 style="margin-top:8px">School ERP Portal</h1>
     <p>Sign in to access your school dashboard.</p>
     <div class="role-grid">
       <button class="role-choice active" type="button" data-role="management"><span class="role-icon" aria-hidden="true">M</span>Management</button>
