@@ -218,6 +218,7 @@ const store = {
     {id:"TCH003",name:"Neha Mishra",subject:"English",classes:"6-A, 8-A"}
   ],
   attendance: {},
+  teacherAttendance: {},
   results: {
     1: [{exam:"Term 1 Examination",subject:"English",obtained:78,total:100},{exam:"Term 1 Examination",subject:"Mathematics",obtained:84,total:100},{exam:"Term 1 Examination",subject:"Science",obtained:81,total:100},{exam:"Term 1 Examination",subject:"Social Studies",obtained:76,total:100}],
     2: [{exam:"Term 1 Examination",subject:"English",obtained:88,total:100},{exam:"Term 1 Examination",subject:"Mathematics",obtained:91,total:100},{exam:"Term 1 Examination",subject:"Science",obtained:86,total:100},{exam:"Term 1 Examination",subject:"Social Studies",obtained:89,total:100}],
@@ -264,7 +265,7 @@ function statIcon(label){
 function statCard(label,value,foot,icon){return `<div class="stat"><div class="stat-top"><span>${label}</span><span class="stat-icon">${statIcon(label)}</span></div><div class="stat-value">${value}</div><div class="stat-foot">${foot}</div></div>`}
 function pageHead(title,subtitle,action=""){return `<div class="page-heading"><div><h1>${title}</h1><p>${subtitle}</p></div>${action}</div>`}
 function navItems(){
- if(currentUser.role==="management")return [["dashboard","O","Overview"],["students","S","Students"],["teachers","T","Teachers"],["fees","₹","Fee Management"],["attendance","A","Attendance"],["notices","N","School Notices"]];
+ if(currentUser.role==="management")return [["dashboard","O","Overview"],["students","S","Students"],["teachers","T","Teachers"],["fees","₹","Fee Management"],["teacherattendance","TA","Teacher Attendance"],["notices","N","School Notices"]];
  if(currentUser.role==="teacher")return [["dashboard","O","My Dashboard"],["attendance","A","Mark Attendance"],["students","S","Student List"],["notices","N","School Notices"]];
  return [["dashboard","O","My Dashboard"],["myattendance","A","My Attendance"],["results","R","My Results"],["myfees","₹","My Fees"],["notices","N","School Notices"]];
 }
@@ -287,9 +288,9 @@ function login(event){
 function logout(){currentUser=null;document.getElementById("app").classList.add("hidden");document.getElementById("loginScreen").classList.remove("hidden");document.getElementById("loginForm").reset();document.getElementById("loginError").textContent=""}
 function showPage(page){currentPage=page;buildNav();renderPage();window.scrollTo({top:0,behavior:"smooth"})}
 function renderPage(){
- const titles={dashboard:"Overview",students:"Students",teachers:"Teachers",fees:"Fee Management",attendance:"Attendance",notices:"School Notices",myattendance:"My Attendance",myfees:"My Fees",results:"My Results"};
+ const titles={dashboard:"Overview",students:"Students",teachers:"Teachers",fees:"Fee Management",attendance:"Attendance",teacherattendance:"Teacher Attendance",notices:"School Notices",myattendance:"My Attendance",myfees:"My Fees",results:"My Results"};
  document.getElementById("topTitle").textContent=titles[currentPage]||"Dashboard";
- const pages={dashboard:renderDashboard,students:renderStudents,teachers:renderTeachers,fees:renderFees,attendance:renderAttendance,notices:renderNotices,myattendance:renderMyAttendance,myfees:renderMyFees,results:renderMyResults};
+ const pages={dashboard:renderDashboard,students:renderStudents,teachers:renderTeachers,fees:renderFees,attendance:currentUser.role==="management"?renderManagementTeacherAttendance:renderAttendance,teacherattendance:renderManagementTeacherAttendance,notices:renderNotices,myattendance:renderMyAttendance,myfees:renderMyFees,results:renderMyResults};
  document.getElementById("pageContent").innerHTML=(pages[currentPage]||renderDashboard)();
  bindPageEvents();
 }
@@ -305,8 +306,8 @@ function renderDashboard(){
  const todays=store.attendance[todayKey()]||[],present=todays.filter(a=>a.status==="Present").length;
  return pageHead("Good afternoon, Management ","Here is what is happening at National Academy today.",`<button class="primary" data-action="add-student">+ Add student</button>`)+
  `<div class="grid stats">${statCard("Total Students",total,"Across all listed classes","S")}${statCard("Teachers",store.teachers.length,"Teaching staff records","TM")}${statCard("Fees Collected",money(paid),Math.round(paid/(totalFees||1)*100)+"% of listed fees","₹")}${statCard("Fees Pending",money(pending),"Outstanding fee balance","◷")}</div>
- <div class="grid two-col"><div class="panel"><div class="panel-head"><div><h3>Attendance overview</h3><p>Based on records marked today</p></div><button class="btn" data-goto="attendance">Open attendance</button></div>
- <div style="display:flex;align-items:center;gap:22px;padding:8px 0 18px"><div class="progress-ring">${todays.length?Math.round(present/todays.length*100):0}%</div><div style="flex:1"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px"><span>Present among marked</span><strong>${present}/${todays.length}</strong></div><div class="bar"><span style="width:${todays.length?present/todays.length*100:0}%"></span></div><p class="muted small">Attendance percentage is calculated from records entered in this prototype.</p></div></div></div>
+ <div class="grid two-col"><div class="panel"><div class="panel-head"><div><h3>Teacher attendance</h3><p>Staff attendance marked today</p></div><button class="btn" data-goto="teacherattendance">Manage staff</button></div>
+ <div style="display:flex;align-items:center;gap:22px;padding:8px 0 18px"><div class="progress-ring">${(store.teacherAttendance[todayKey()]||[]).length?Math.round((store.teacherAttendance[todayKey()]||[]).filter(a=>a.status==="Present").length/(store.teacherAttendance[todayKey()]||[]).length*100):0}%</div><div style="flex:1"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px"><span>Present among marked</span><strong>${(store.teacherAttendance[todayKey()]||[]).filter(a=>a.status==="Present").length}/${(store.teacherAttendance[todayKey()]||[]).length}</strong></div><div class="bar"><span style="width:${(store.teacherAttendance[todayKey()]||[]).length?(store.teacherAttendance[todayKey()]||[]).filter(a=>a.status==="Present").length/(store.teacherAttendance[todayKey()]||[]).length*100:0}%"></span></div><p class="muted small">Record staff attendance from the Teacher Attendance section.</p></div></div></div>
  <div class="panel"><div class="panel-head"><div><h3>Fee collection</h3><p>Overall fee position</p></div><button class="btn" data-goto="fees">View fees</button></div><div style="font-size:25px;font-weight:800;margin:15px 0 8px">${money(paid)}</div><div class="bar"><span style="width:${Math.min(100,paid/(totalFees||1)*100)}%"></span></div><p class="muted small">${money(pending)} remains pending out of ${money(totalFees)} total listed fees.</p></div></div>
  <div class="grid two-col"><div class="panel"><div class="panel-head"><h3>Recent student records</h3><button class="btn" data-goto="students">All students</button></div>${studentTable(store.students.slice(0,4),false)}</div>${renderNoticePanel()}</div>`;
 }
@@ -361,6 +362,26 @@ function renderAttendance(){
  `<div class="grid stats">${statCard("Marked Today",today.length,"Out of "+store.students.length+" listed students","")}${statCard("Present",present,"Marked present today","")}${statCard("Absent",absent,"Marked absent today","")}${statCard("Not Marked",Math.max(0,store.students.length-today.length),"Awaiting a status","◷")}</div>
  <div class="panel"><div class="panel-head"><div><h3>Daily register</h3><p>Mark attendance for the selected class.</p></div></div><div class="attendance-controls"><input type="date" id="attendanceDate" value="${date}"><select id="attendanceClass"><option value="all">All classes</option>${classOptions.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join("")}</select><input id="attendanceSearch" placeholder="Search student…"></div><div id="attendanceTable">${attendanceTable(store.students,date,"all","")}</div></div>`;
 }
+function renderManagementTeacherAttendance(){
+ if(currentUser.role!=="management")return pageHead("Access restricted","Only school management can manage teacher attendance.")+`<div class="panel"><div class="empty">This section is available to management only.</div></div>`;
+ const date=document.getElementById("teacherAttendanceDate")?.value||todayKey(),records=store.teacherAttendance[date]||[];
+ const present=records.filter(r=>r.status==="Present").length,absent=records.filter(r=>r.status==="Absent").length;
+ const table=`<div class="table-wrap"><table><thead><tr><th>Teacher</th><th>Teacher ID</th><th>Subject</th><th>Assigned Classes</th><th>Status</th><th>Mark Attendance</th></tr></thead><tbody>${store.teachers.map(t=>{const rec=records.find(r=>r.teacherId===t.id);return `<tr><td><div class="person"><div class="mini-avatar">${initials(t.name)}</div><strong>${esc(t.name)}</strong></div></td><td>${esc(t.id)}</td><td>${esc(t.subject)}</td><td>${esc(t.classes)}</td><td>${rec?badge(rec.status):badge("Not marked")}</td><td><button class="btn ${rec?.status==="Present"?"btn-blue":""}" data-teacher-mark="${esc(t.id)}" data-status="Present" data-date="${date}">Present</button> <button class="btn ${rec?.status==="Absent"?"btn-blue":""}" data-teacher-mark="${esc(t.id)}" data-status="Absent" data-date="${date}">Absent</button></td></tr>`}).join("")}</tbody></table></div>`;
+ return pageHead("Teacher Attendance","Record and review daily attendance for teaching staff.",`<button class="btn" data-action="export-teacher-attendance">Export CSV</button>`)+
+ `<div class="grid stats">${statCard("Total Teachers",store.teachers.length,"Listed teaching staff","TM")}${statCard("Present",present,"Marked present for selected date","")}${statCard("Absent",absent,"Marked absent for selected date","")}${statCard("Not Marked",Math.max(0,store.teachers.length-records.length),"Awaiting attendance status","")}</div>
+ <div class="panel"><div class="panel-head"><div><h3>Staff daily register</h3><p>Choose a date, then mark each teacher present or absent.</p></div><input type="date" id="teacherAttendanceDate" value="${date}" style="max-width:190px"></div><div id="teacherAttendanceTable">${table}</div></div>`;
+}
+function refreshTeacherAttendanceTable(){
+ const date=document.getElementById("teacherAttendanceDate")?.value||todayKey();
+ renderPage();
+ const dateInput=document.getElementById("teacherAttendanceDate");
+ if(dateInput)dateInput.value=date;
+}
+function setTeacherAttendance(teacherId,status,date=todayKey()){
+ if(!store.teacherAttendance[date])store.teacherAttendance[date]=[];
+ const records=store.teacherAttendance[date],existing=records.find(r=>r.teacherId===teacherId);
+ if(existing)existing.status=status;else records.push({teacherId,status});
+}
 function attendanceTable(list,date,classFilter,search){
  const filtered=list.filter(s=>(classFilter==="all"||s.className===classFilter)&&(`${s.name} ${s.className}`).toLowerCase().includes(search.toLowerCase()));
  if(!filtered.length)return `<div class="empty">No students match this filter.</div>`;
@@ -386,6 +407,8 @@ function bindPageEvents(){
  const search=document.getElementById("studentSearch");if(search)search.addEventListener("input",()=>{const list=currentUser.role==="student"?[studentById(currentUser.studentId)]:store.students;document.getElementById("studentTable").innerHTML=studentTable(list.filter(s=>(s.name+" "+s.className).toLowerCase().includes(search.value.toLowerCase())),currentUser.role==="management");bindEditButtons()});
  bindEditButtons();
  document.querySelectorAll("[data-mark]").forEach(b=>b.addEventListener("click",()=>{setAttendance(Number(b.dataset.mark),b.dataset.status,b.dataset.date);renderPage()}));
+ document.querySelectorAll("[data-teacher-mark]").forEach(b=>b.addEventListener("click",()=>{setTeacherAttendance(b.dataset.teacherMark,b.dataset.status,b.dataset.date);renderPage()}));
+ const teacherDate=document.getElementById("teacherAttendanceDate");if(teacherDate)teacherDate.addEventListener("change",()=>{const selected=teacherDate.value;renderPage();const refreshed=document.getElementById("teacherAttendanceDate");if(refreshed)refreshed.value=selected});
  ["attendanceDate","attendanceClass","attendanceSearch"].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener("input",refreshAttendanceTable)});
  document.querySelectorAll("[data-fee]").forEach(b=>b.addEventListener("click",()=>openFeeModal(Number(b.dataset.fee))));
  document.querySelectorAll("[data-delete-notice]").forEach(b=>b.addEventListener("click",()=>{if(confirm("Delete this notice?")){store.notices.splice(Number(b.dataset.deleteNotice),1);renderPage()}}));
@@ -401,6 +424,7 @@ function handleAction(action){
  if(action==="add-teacher")openTeacherModal();
  if(action==="add-notice")openNoticeModal();
  if(action==="export-attendance")exportCSV("attendance.csv",["Date","Student","Class","Status"],Object.entries(store.attendance).flatMap(([date,records])=>records.map(a=>{const s=studentById(a.studentId);return[date,s?.name||"",s?.className||"",a.status]})));
+ if(action==="export-teacher-attendance")exportCSV("teacher-attendance.csv",["Date","Teacher","Teacher ID","Subject","Classes","Status"],Object.entries(store.teacherAttendance).flatMap(([date,records])=>records.map(a=>{const t=store.teachers.find(x=>x.id===a.teacherId);return[date,t?.name||"",a.teacherId,t?.subject||"",t?.classes||"",a.status]})));
  if(action==="export-fees")exportCSV("fees.csv",["Student","Class","Total Fee","Paid","Balance","Status"],store.students.map(s=>[s.name,s.className,s.feeTotal,s.feePaid,s.feeTotal-s.feePaid,feeStatus(s)]));
 }
 function modal(title,body,submitLabel="Save"){
