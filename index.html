@@ -71,6 +71,65 @@ input,select{transition:border-color .18s ease,box-shadow .18s ease}
 .empty:before{content:"";display:block;width:38px;height:30px;margin:0 auto 12px;border:1.5px solid #b9c7e5;border-radius:7px;background:linear-gradient(90deg,transparent 0 28%,#dbe4f8 28% 32%,transparent 32% 65%,#dbe4f8 65% 69%,transparent 69%),linear-gradient(#e9efff 0 0) top/100% 6px no-repeat}
 @media(max-width:720px){.page-heading{padding-right:72px}.page-heading:after{width:60px;height:54px;right:0}.page-heading:before{right:12px;top:10px;width:38px;height:32px}.login-art{height:94px}}
 
+
+/* Interactive hover states and decorative dashboard graphics */
+:root{--hover-lift:translateY(-4px)}
+button{transition:transform .18s ease,box-shadow .18s ease,background-color .18s ease,border-color .18s ease,color .18s ease}
+button:focus-visible,[data-goto]:focus-visible{outline:3px solid #9db2ff;outline-offset:3px}
+.primary{box-shadow:0 4px 10px #3157d526}
+.primary:hover{transform:translateY(-2px);box-shadow:0 8px 18px #3157d540}
+.primary:active,.btn:active,.nav-btn:active{transform:translateY(0) scale(.985)}
+.btn:hover{transform:translateY(-1px);border-color:#b8c7ee;box-shadow:0 4px 10px #1720330c}
+.btn-blue:hover{background:#dfe7ff;color:#1e3ea9}
+.btn-danger:hover{background:#fff1f1;border-color:#e9b7b7}
+.nav-btn{position:relative;overflow:hidden;transition:background .2s ease,color .2s ease,padding-left .2s ease}
+.nav-btn:hover{padding-left:16px}
+.nav-btn.active:before{content:"";position:absolute;left:0;top:7px;bottom:7px;width:3px;border-radius:0 4px 4px 0;background:#9fb5ff}
+.nav-btn .ico{transition:transform .2s ease,background .2s ease,border-color .2s ease}
+.nav-btn:hover .ico,.nav-btn.active .ico{transform:scale(1.06);background:#354c7d;border-color:#7d94c9}
+.stat{position:relative;isolation:isolate;overflow:hidden;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.stat:before{content:"";position:absolute;z-index:-1;right:-27px;top:-32px;width:92px;height:92px;border-radius:50%;background:radial-gradient(circle,#eaf0ff 0%,#f5f7ff 58%,transparent 70%);transition:transform .25s ease,opacity .25s ease;opacity:.85}
+.stat:after{content:"";position:absolute;z-index:-1;right:18px;bottom:17px;width:26px;height:26px;border:1px solid #edf1fc;border-radius:8px;transform:rotate(18deg);transition:transform .25s ease}
+.stat:hover{transform:translateY(-4px);border-color:#cbd7fa;box-shadow:0 12px 24px #1b2c5010}
+.stat:hover:before{transform:scale(1.28);opacity:1}
+.stat:hover:after{transform:rotate(38deg) scale(1.12)}
+.stat-icon{transition:transform .22s ease,background .22s ease}
+.stat:hover .stat-icon{transform:translateY(-2px) rotate(-3deg);background:#dfe7ff}
+.panel{position:relative;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.panel-head h3{letter-spacing:-.2px}
+.panel-head h3:before{content:"";display:inline-block;width:4px;height:15px;border-radius:5px;background:linear-gradient(180deg,#3157d5,#91a7f4);margin-right:9px;vertical-align:-2px}
+.panel-head .btn{flex-shrink:0}
+tr{transition:background-color .16s ease}
+tbody tr:hover{background:#f8faff}
+.person .mini-avatar{transition:transform .2s ease,box-shadow .2s ease}
+.person:hover .mini-avatar{transform:scale(1.06);box-shadow:0 4px 10px #3157d51c}
+.badge{transition:filter .18s ease,transform .18s ease}
+.badge:hover{filter:saturate(1.15);transform:translateY(-1px)}
+.bar span{transition:width .45s ease}
+.progress-ring{position:relative;display:grid;place-items:center;width:76px;height:76px;flex-shrink:0;border-radius:50%;background:conic-gradient(#3157d5 0 72%,#edf1fb 72% 100%);font-size:19px}
+.progress-ring:before{content:"";position:absolute;inset:7px;border-radius:50%;background:#fff}
+.progress-ring{isolation:isolate}
+.progress-ring:after{content:"";position:absolute;inset:7px;border-radius:50%;background:white;z-index:-1}
+.login-wrap{transition:box-shadow .25s ease,border-color .25s ease}
+.login-wrap:hover{box-shadow:0 24px 76px #15264b20;border-color:#d9e2f7}
+.school-mark{box-shadow:0 8px 18px #14213d20;transition:transform .22s ease,box-shadow .22s ease}
+.school-mark:hover{transform:translateY(-2px) rotate(-3deg);box-shadow:0 12px 22px #14213d28}
+.login-art{position:relative}
+.login-art:after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,#ffffff55 45%,transparent 68%);transform:translateX(-110%);animation:art-shimmer 7s ease-in-out infinite;pointer-events:none}
+@keyframes art-shimmer{0%,65%{transform:translateX(-110%)}85%,100%{transform:translateX(110%)}}
+#loginScreen{position:relative;overflow:hidden}
+#loginScreen:before,#loginScreen:after{content:"";position:fixed;pointer-events:none;border-radius:50%;border:1px solid #d4def6}
+#loginScreen:before{width:290px;height:290px;left:-155px;bottom:-115px;box-shadow:0 0 0 24px #e9effb80,0 0 0 50px #eef2fc70}
+#loginScreen:after{width:180px;height:180px;right:-80px;top:16%;box-shadow:0 0 0 20px #e9effb80,0 0 0 42px #eef2fc70}
+.demo-note{transition:background .2s ease,border-color .2s ease}
+.demo-note:hover{background:#f2f6ff;border-color:#d7e1fb}
+.empty{background:linear-gradient(180deg,#fcfdff,#fff);border-radius:10px}
+input:hover,select:hover{border-color:#b8c6e5}
+input::placeholder,textarea::placeholder{color:#9aa5b5;transition:color .18s ease}
+input:focus::placeholder,textarea:focus::placeholder{color:#c0c8d5}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+@media(max-width:720px){.stat:hover,.panel:hover{transform:none}.progress-ring{width:64px;height:64px}.panel-head h3:before{height:13px;margin-right:7px}}
+
 </style>
 </head>
 <body>
