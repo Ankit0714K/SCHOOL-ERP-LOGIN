@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>National Academy | School ERP</title>
-
 <link rel="stylesheet" href="css/style.css">
+
 </head>
 <body>
 <section id="loginScreen">
@@ -15,12 +15,12 @@
     <h1 style="margin-top:22px">School ERP Portal</h1>
     <p>Sign in to access your school dashboard.</p>
     <div class="role-grid">
-      <button class="role-choice" type="button" data-role="management">Management</button>
-      <button class="role-choice" type="button" data-role="teacher">Teacher</button>
-      <button class="role-choice active" type="button" data-role="student">Student</button>
+      <button class="role-choice active" type="button" data-role="management"><span class="role-icon">🏫</span>Management</button>
+      <button class="role-choice" type="button" data-role="teacher"><span class="role-icon">👩‍🏫</span>Teacher</button>
+      <button class="role-choice" type="button" data-role="student"><span class="role-icon">🎓</span>Student</button>
     </div>
     <form id="loginForm">
-      <label for="loginId" id="loginIdLabel">Student ID</label><input id="loginId" autocomplete="username" placeholder="Enter your Student ID" required>
+      <label for="loginId">Login ID</label><input id="loginId" autocomplete="username" placeholder="Enter your school ID" required>
       <label for="loginPassword">Password</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter password" required>
       <div id="loginError" class="error" role="alert"></div>
       <button class="primary full" type="submit">Sign in securely →</button>
@@ -38,13 +38,13 @@
     <div class="side-bottom"><div class="side-user" id="sideUser">Signed in</div><button class="logout-btn" id="logoutBtn">↪ &nbsp; Log out</button></div>
   </aside>
   <main class="main">
-    <header class="topbar"><div class="topbar-heading"><button class="btn topbar-back hidden" id="backBtn" type="button" aria-label="Go back">← Back</button><h2 id="topTitle">Overview</h2></div><button class="top-right profile-shortcut" id="profileShortcut" type="button" aria-label="Open student profile" disabled><span id="roleLabel" class="muted small">Management</span><span class="avatar" id="topAvatar">NA</span></button></header>
+    <header class="topbar"><h2 id="topTitle">Overview</h2><div class="top-right"><span id="roleLabel" class="muted small">Management</span><div class="avatar" id="topAvatar">NA</div></div></header>
     <div class="content" id="pageContent"></div>
   </main>
 </div>
 
 <div id="modalRoot"></div>
-
 <script src="js/app.js" defer></script>
+
 </body>
 </html>
